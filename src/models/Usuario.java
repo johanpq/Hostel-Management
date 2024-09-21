@@ -1,8 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Usuario {
     private String nome;
     private String documento;
@@ -10,18 +7,16 @@ public class Usuario {
     private String email;
     private String senha;
 
-    // Permite que as subclasses acessem a lista
-    protected static List<Usuario> listaUsuario = new ArrayList<>();
-
     public Usuario(String nome, String documento, String telefone, String email, String senha) {
         this.nome = nome;
         this.documento = documento;
         this.telefone = telefone;
         this.email = email;
         this.senha = senha;
-        
-        // Cria uma lista de usuários
-        listaUsuario.add(this);
+    }
+
+    public static Usuario criarUsuario(String nome, String documento, String telefone, String email, String senha) {
+        return new Usuario(nome, documento, telefone, email, senha);
     }
 
     public boolean fazerLogin(String email, String senha) {
@@ -66,34 +61,6 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
-    }
-
-    // Métodos estáticos conseguem ser chamados diretamente pela classe, sem precisar de um objeto criado
-    public static void visualizarUsuario(String documento) {
-        for (Usuario i : listaUsuario) {
-            if(i.getDocumento().equals(documento)) {
-                System.out.println(i);
-            }
-        }
-    }
-
-    public static void removerUsuario(String documento) {
-        Usuario getUsuario = null;
-
-        // Verifica se existe o usuário pelo documento
-        for (Usuario i : listaUsuario) {
-            if(i.getDocumento().equals(documento)) {
-                getUsuario = i;
-                break;
-            } else {
-                System.out.println("Nao existe este usuario!");
-            }
-        }
-
-        if(getUsuario != null) {
-            listaUsuario.remove(getUsuario);
-            System.out.println(getUsuario.nome + "foi removido com sucesso!");
-        }
     }
 
     public String toString() {
