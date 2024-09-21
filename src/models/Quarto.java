@@ -1,22 +1,23 @@
 package models;
 
 /* Classe para representar um quarto de uma pousada.
- * Um quarto tem numero, tipo, preço e status.
+ * Um quarto tem numero, tipo, preço e status
+ * O atributo status é para definir a disponibilidade do quarto.
 */
 
 public class Quarto{
     private int numero;
     private String tipo;
     private double preco;
-    private String status;
+    private boolean status;
 
-    public Quarto(int numero, String tipo, double preco, String status){
+    public Quarto(int numero, String tipo, double preco, boolean status){
         this.numero = numero;
         this.tipo = tipo;
         this.preco =preco;
         this.status = status;
     }
- 
+
     public int getNumero(){
         return numero;
     }
@@ -41,11 +42,24 @@ public class Quarto{
         this.preco = preco;
     }
 
-    public String getStatus(){
+    public boolean getStatus(){
         return status;
     }
 
-    public void setStatus(String status){
+    public void setStatus(boolean status){
         this.status = status;
     }
+
+    public String toString() {
+        String res = "";
+        res += "       Funcionário       ";
+        res += "=========================";
+        res += "Número: " + getNumero() + "\n";
+        res += "Tipo: " + getTipo() + "\n";
+        res += "Preço: " + getPreco() + "\n";
+        res += "Status: " + getStatus() + "\n";
+        res += "=========================";
+        return res;
+    }
+
 }

@@ -1,54 +1,18 @@
 package models;
 
 /* Classe para representar um funcionario de uma pousada.
- * Um funcionario tem nome, documento, telefone, email e cargo.
+ * Um funcionario tem nome, documento, telefone, email, senha, cargo e admin 
+ * O atributo admin é para definir um administrador.
 */
 
-public class Funcionario {
-    private String nome;
-    private String documento;
-    private String telefone;
-    private String email;
+public class Funcionario extends Usuario {
     private String cargo;
+    private boolean admin;
 
-    public Funcionario(String nome, String documento, String telefone, String email, String cargo){
-        this.nome = nome;
-        this.documento = documento;
-        this.telefone = telefone;
-        this.email = email;
+    public Funcionario(String nome, String documento, String telefone, String email, String senha, String cargo, boolean admin){
+        super(nome, documento, telefone, email, senha);
         this.cargo = cargo;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.admin = admin;
     }
 
     public String getCargo() {
@@ -59,10 +23,27 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    @Override
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public String toString() {
-        return "Funcionario [nome=" + nome + ", documento=" + documento + ", telefone=" + telefone + ", email=" + email
-                + ", cargo=" + cargo + "]";
+        String res = "";
+        res += "       Funcionário       ";
+        res += "=========================";
+        res += "Nome: " + getNome() + "\n";
+        res += "Documento: " + getDocumento() + "\n";
+        res += "Telefone: " + getTelefone() + "\n";
+        res += "Email: " + getEmail() + "\n";
+        res += "Senha: " + getSenha() + "\n";
+        res += "Cargo: " + getCargo() + "\n";
+        res += "Admin: " + isAdmin() + "\n";
+        res += "=========================";
+        return res;
     }
 
 }
