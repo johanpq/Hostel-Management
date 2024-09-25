@@ -1,6 +1,6 @@
 package models;
 
-public class Usuario {
+public abstract class Usuario {
     private String nome;
     private String documento;
     private String telefone;
@@ -13,10 +13,6 @@ public class Usuario {
         this.telefone = telefone;
         this.email = email;
         this.senha = senha;
-    }
-
-    public static Usuario criarUsuario(String nome, String documento, String telefone, String email, String senha) {
-        return new Usuario(nome, documento, telefone, email, senha);
     }
 
     public boolean fazerLogin(String email, String senha) {
