@@ -1,48 +1,25 @@
 package models;
 
-public class Hospede {
-    private String nome;
-    private String documento;
-    private String telefone;
-    private String email;
+public class Hospede extends Usuario {
+    private String alimentoRestrito;
 
-    public Hospede(String nome, String documento, String telefone, String email) {
-        this.nome = nome;
-        this.documento = documento;
-        this.telefone = telefone;
-        this.email = email;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public Hospede(String nome, String documento, String telefone, String email, String senha, String alimentoRestrito) {
+      super(nome, documento, telefone, email, senha);
+      this.alimentoRestrito = alimentoRestrito;
     }
       
+    public void setAlimentoRestrito(String alimentoRestrito) {
+        this.alimentoRestrito = alimentoRestrito;
+    }
+
+    public String getAlimentoRestrito() {
+        return alimentoRestrito;
+    } 
+
+    public String toString() {
+        String res = "";
+        super.toString();
+        res += "Alimento restrito: " + alimentoRestrito + "\n";
+        return res;
+    }
 }
