@@ -23,7 +23,7 @@ public class Funcionario extends Usuario {
         this.cargo = cargo;
     }
 
-    public boolean isAdmin() {
+    public boolean getAdmin() {
         return admin;
     }
 
@@ -41,7 +41,7 @@ public class Funcionario extends Usuario {
         res += "Email: " + getEmail() + "\n";
         res += "Senha: " + getSenha() + "\n";
         res += "Cargo: " + getCargo() + "\n";
-        res += "Admin: " + isAdmin() + "\n";
+        res += "Admin: " + getAdmin() + "\n";
         res += "=========================";
         return res;
     }

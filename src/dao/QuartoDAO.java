@@ -45,4 +45,63 @@ public class QuartoDAO {
     
     }
 
+    public void atualizarQuarto(Quarto quarto) throws SQLException{
+        String sql = "UPDATE quarto set numero = ?, tipo = ?, preco = ?, status = ?";
+        
+        try(Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+                stmt.setInt(1, quarto.getNumero());
+                stmt.setString(2, quarto.getTipo());
+                stmt.setDouble(3, quarto.getPreco());
+                stmt.setBoolean(4, quarto.getStatus());
+
+                int rowsUpdate = stmt.executeUpdate();
+                if (rowsUpdate > 0) {
+                    System.out.println("Quarto atualizado com sucesso!");
+                } else{
+                    System.out.println("Nenhum quarto encontrado com o número informado!");
+                }
+
+        }
+    }
+
+    public void removerQuarto(int numero) throws SQLException{
+        String sql = "DELETE FROM quarto WHERE numero = ?";
+
+        try(Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+                stmt.setInt(1, numero);
+                
+                int rowsDeleted = stmt.executeUpdate();
+                if(rowsDeleted > 0){
+                    System.out.println("Quarto removido com sucesso!");
+                } else{
+                    System.out.println("Nenhum quarto encontrado com o número informado");
+                }
+        } 
+    }
+
+    public Quarto visualizarQuarto(int numero) throws SQLException{
+        String sql = "SELECT * FROM quarto WHERE numero = ?";
+
+        try(Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+                stmt.setInt(1, numero);
+
+                try(ResultSet rs = stmt.executeQuery()){
+                    if (rs.next()) {
+                        return new Quarto(rs.getInt("numero"), 
+                                          rs.getString("tipo"), 
+                                          rs.getDouble("preco"), 
+                                          rs.getBoolean("status"));
+                    } else{
+                        System.out.println("Nenhum quarto encontrado com o número informado!");
+                        return null;
+                    }
+                }
+            }
+    }
 }
