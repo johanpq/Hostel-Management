@@ -50,7 +50,7 @@ public class FuncionarioDAO {
     }
 
     public void atualizarFuncionario(Funcionario funcionario) throws SQLException{
-        String sql = "UPDATE funcionario set nome = ?, documento = ?, telefone = ?, email = ?, senha = ?, cargo = ?, amdin = ?";
+        String sql = "UPDATE funcionario set nome = ?, documento = ?, telefone = ?, email = ?, senha = ?, cargo = ?, amdin = ? WHERE documento = ?";
         
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){

@@ -46,7 +46,7 @@ public class QuartoDAO {
     }
 
     public void atualizarQuarto(Quarto quarto) throws SQLException{
-        String sql = "UPDATE quarto set numero = ?, tipo = ?, preco = ?, status = ?";
+        String sql = "UPDATE quarto set numero = ?, tipo = ?, preco = ?, status = ? WHERE numero = ?";
         
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -78,7 +78,7 @@ public class QuartoDAO {
                 if(rowsDeleted > 0){
                     System.out.println("Quarto removido com sucesso!");
                 } else{
-                    System.out.println("Nenhum quarto encontrado com o número informado");
+                    System.out.println("Nenhum quarto encontrado com o número informado!");
                 }
         } 
     }
