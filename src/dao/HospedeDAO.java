@@ -25,18 +25,18 @@ public class HospedeDAO {
     }
 
     public void atualizarHospede(Hospede hospede) throws SQLException {
-        String sql = "UPDATE hospede SET nome = ?, telefone = ?, email = ?, senha = ?, alimentoRestrito = ? WHERE documento = ?";
+        String sql = "UPDATE hospede SET nome = ?, documento = ?, telefone = ?, email = ?, senha = ?, alimentoRestrito = ? WHERE documento = ?";
     
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
     
-            stmt.setString(1, hospede.getNome());
-            stmt.setString(2, hospede.getTelefone());
-            stmt.setString(3, hospede.getEmail());
-            stmt.setString(4, hospede.getSenha());
-            stmt.setString(5, hospede.getAlimentoRestrito());
-            stmt.setString(6, hospede.getDocumento()); // Identificador único do hóspede (documento)
-            stmt.executeUpdate();
+                stmt.setString(1, hospede.getNome());
+                stmt.setString(2, hospede.getDocumento());
+                stmt.setString(3, hospede.getTelefone());
+                stmt.setString(4, hospede.getEmail());
+                stmt.setString(5, hospede.getSenha());
+                stmt.setString(6, hospede.getAlimentoRestrito());
+                stmt.executeUpdate();
         }
     }
     
