@@ -11,7 +11,6 @@ public class QuartoView {
     public static void gerenciarQuartos(){
         Scanner sc = new Scanner(System.in);
         QuartoDAO quartoDAO = new QuartoDAO();
-        int opcao;
         boolean run = true;
         
 
@@ -27,19 +26,19 @@ public class QuartoView {
 
             switch (opcao) {
                 case 1:
-                    quartoDAO.criarQuarto(sc, quartoDAO);
+                    criarQuarto(sc, quartoDAO);
                     break;  
                 case 2:
-                    quartoDAO.visualizarQuarto(sc, quartoDAO);
+                    visualizarQuarto(sc, quartoDAO);
                     break;
                 case 3:
-                    quartoDAO.atualizarQuarto(sc, quartoDAO);
+                    atualizarQuarto(sc, quartoDAO);
                     break;
                 case 4:
-                    quartoDAO.removerQuarto(sc, quartoDAO);
+                    removerQuarto(sc, quartoDAO);
                     break;
                 case 5:
-                    quartoDAO.listarQuartos(quartoDAO);
+                    listarQuartos(quartoDAO);
                 case 6:
                     run = false;
                     break;
@@ -61,10 +60,10 @@ public class QuartoView {
         boolean status = sc.nextBoolean();
         System.out.println("\nCriando um novo quarto...");
 
-        quartoDAO = new Quarto(numero, tipo, preco, status);
+        Quarto quarto = new Quarto(numero, tipo, preco, status);
 
         try{
-            quartoDAO.criarQuarto(quartoDAO);
+            quartoDAO.criarQuarto(quarto);
             System.out.println("Quarto criado com sucesso!");
         } catch(SQLException e){
             System.out.println("Erro ao criar o quarto: " + e.getMessage());
@@ -122,7 +121,7 @@ public class QuartoView {
         }
     }
 
-    private static void listarQuarto(QuartoDAO quartoDAO){
+    private static void listarQuartos(QuartoDAO quartoDAO){
         System.out.println("\nListando todos os Quartos...");
         try{
             List<Quarto> quartos = quartoDAO.listarQuartos();
