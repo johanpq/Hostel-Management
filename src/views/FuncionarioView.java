@@ -11,7 +11,6 @@ public class FuncionarioView {
     public static void gerenciarFuncionarios(){
         Scanner sc = new Scanner(System.in);
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        int opcao;
         boolean run = true;
 
         while (run) {
@@ -66,10 +65,10 @@ public class FuncionarioView {
         boolean admin = sc.nextBoolean();
         System.out.println("\nCriando um novo funcionário...");
 
-        funcionarioDAO = new Funcionario(nome, documento, telefone, email, senha, cargo, admin);
+        Funcionario funcionario = new Funcionario(nome, documento, telefone, email, senha, cargo, admin);
         
         try{
-            funcionarioDAO.criarFuncionario(funcionarioDAO);
+            funcionarioDAO.criarFuncionario(funcionario);
             System.out.println("Funcionário criado com sucesso!");
         } catch(SQLException e){
             System.out.println("Erro ao criar o funcionário: " + e.getMessage());
@@ -101,7 +100,7 @@ public class FuncionarioView {
             System.out.println("Novo Nome do Funcionário: ");
             String nome = sc.nextLine();
             System.out.println("Novo Documento do Funcionário: ");
-            String documento = sc.nextLine();
+            documento = sc.nextLine();
             System.out.println("Novo Telefone do Funcionário: ");
             String telefone = sc.nextLine();
             System.out.println("Novo Email do Funcionário: ");
