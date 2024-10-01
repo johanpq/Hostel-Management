@@ -26,19 +26,19 @@ public class FuncionarioView {
 
             switch (opcao) {
                 case 1:
-                    funcionarioDAO.criarFuncionario(sc, funcionarioDAO);
+                    criarFuncionario(sc, funcionarioDAO);
                     break;  
                 case 2:
-                    funcionarioDAO.visualizarFuncionario(sc, funcionarioDAO);
+                    visualizarFuncionario(sc, funcionarioDAO);
                     break;
                 case 3:
-                    funcionarioDAO.atualizarFuncionario(sc, funcionarioDAO);
+                    atualizarFuncionario(sc, funcionarioDAO);
                     break;
                 case 4:
-                    funcionarioDAO.removerFuncionario(sc, funcionarioDAO);
+                    removerFuncionario(sc, funcionarioDAO);
                     break;
                 case 5:
-                    funcionarioDAO.listarFuncionarios(funcionarioDAO);
+                    listarFuncionarios(funcionarioDAO);
                 case 6:
                     run = false;
                     break;
