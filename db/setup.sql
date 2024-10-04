@@ -9,3 +9,12 @@ CREATE TABLE funcionario (
 	adminF BOOLEAN not null,
 	PRIMARY KEY (documento)
 );
+
+-- Tabela Quarto
+CREATE TABLE quarto (
+	numero INT not null,
+	tipo VARCHAR(20) not null,
+	preco FLOAT not null,
+	status BOOLEAN not null,
+	PRIMARY KEY (numero)
+);
