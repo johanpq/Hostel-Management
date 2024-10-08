@@ -25,45 +25,38 @@ public class Main {
     
                 switch (funcOuHosp) {
                     case 1:
-                        System.out.println("Admin: 1.Sim | 2.Não");
-                        int ehAdmin = input.nextInt();  
-                        boolean ehFuncAdmin = (ehAdmin == 1);
-    
-                        input.nextLine();  
-
-                        if(ehFuncAdmin) {
-                            System.out.println("----------LOGIN----------");
+                        System.out.println("----------LOGIN----------");
         
-                            System.out.print("Email: ");
-                            String email = input.nextLine();
+                        System.out.print("Email: ");
+                        String email = input.nextLine();
         
-                            System.out.print("Senha: ");
-                            String senha = input.nextLine();
+                        System.out.print("Senha: ");
+                        String senha = input.nextLine();
         
-                            loginDeuCerto = checarAdmin(input, email, senha, ehFuncAdmin);
+                        loginDeuCerto = checarAdmin(input, email, senha);
 
-                            if(loginDeuCerto) {
-                                mostrarMenu(input);
-                            }
-
-                            System.out.println("-------------------------");
+                        if(loginDeuCerto) {
+                            mostrarMenu(input);
                         } else {
                             System.err.println("É funcionário mais sem ser Admin");
                         }
 
+                        System.out.println("-------------------------");
+
                         break;
-    
                     case 2:
                         System.out.println("Case 2 hospede");
                         break;
     
                     default:
                         System.out.println("Opção Inválida!");
-                }
-    
+                } 
+                break;
+
             } catch (Exception e) {
                 System.out.println("Ocorreu uma exceção! Tente novamente!");
             } 
+                
         } while(!loginDeuCerto);
         input.close();
     }
@@ -110,16 +103,15 @@ public class Main {
         } while(!sair);
     }
 
-    public static boolean checarAdmin(Scanner input, String email, String senha, boolean ehFuncAdmin) {
+    public static boolean checarAdmin(Scanner input, String email, String senha) {
         boolean login = false;
-        String sql = "SELECT * FROM funcionario WHERE email = ? AND senha = ? AND adminf = ?";
+        String sql = "SELECT * FROM funcionario WHERE email = ? AND senha = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, email);
             statement.setString(2, senha);
-            statement.setBoolean(3, ehFuncAdmin);
 
             ResultSet result = statement.executeQuery();
 
