@@ -83,7 +83,7 @@ public class HospedeView {
         try {
             Hospede hospede = hospedeDAO.vizualizarHospede(documento);  
             if (hospede != null) {
-                System.out.println("Hóspede encontrado: " + hospede);
+                System.out.println("Hóspede encontrado: \n\n" + hospede);
             } else {
                 System.out.println("Hóspede não encontrado.");
             }

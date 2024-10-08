@@ -18,8 +18,11 @@ public class Hospede extends Usuario {
 
     public String toString() {
         String res = "";
-        super.toString();
+        res += "          Hospede         \n";
+        res += "=========================\n";
+        res += super.toString();
         res += "Alimento restrito: " + alimentoRestrito + "\n";
+        res += "=========================\n";
         return res;
     }
 }

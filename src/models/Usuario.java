@@ -61,14 +61,11 @@ public abstract class Usuario {
 
     public String toString() {
         String res = "";
-        res += "         Usuario         ";
-        res += "=========================";
         res += "Nome: " + getNome() + "\n";
         res += "Documento: " + getDocumento() + "\n";
         res += "Telefone: " + getTelefone() + "\n";
         res += "Email: " + getEmail() + "\n";
         res += "Senha: " + getSenha() + "\n";
-        res += "=========================";
         return res;
     }
 }
