@@ -5,7 +5,7 @@ if not exist bin (
 )
 
 rem Compilar os arquivos Java
-javac -d bin -cp "lib/*" config\ConnectionFactory.java models\Usuario.java Main.java models/Funcionario.java dao/FuncionarioDAO.java views/FuncionarioView.java
+javac -d bin -cp "lib/*" config\ConnectionFactory.java models\Usuario.java Main.java models\Funcionario.java models\Hospede.java models\Quarto.java models\Reserva.java  dao\FuncionarioDAO.java dao\HospedeDAO.java dao\QuartoDAO.java dao\ReservaDAO.java views\FuncionarioView.java views\QuartoView.java views\HospedeView.java
 
 rem Executar o programa principal
 java -cp "lib/*;bin" Main
