@@ -52,13 +52,13 @@ public class Quarto{
 
     public String toString() {
         String res = "";
-        res += "       Funcionário       ";
-        res += "=========================";
+        res += "          Quarto         \n";
+        res += "=========================\n";
         res += "Número: " + getNumero() + "\n";
         res += "Tipo: " + getTipo() + "\n";
         res += "Preço: " + getPreco() + "\n";
         res += "Status: " + getStatus() + "\n";
-        res += "=========================";
+        res += "=========================\n";
         return res;
     }
 

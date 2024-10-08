@@ -16,12 +16,13 @@ public class QuartoView {
 
         while (run) {
             System.out.println("\nGerenciamento de Quartos\n");
-            System.out.println("1. Criar quarto\n");
+            System.out.println("1. Criar quarto");
             System.out.println("2. Visualizar quarto");
             System.out.println("3. Atualizar quarto");
             System.out.println("4. Remover quarto");
             System.out.println("5. Listar todos os quartos");
             System.out.println("6. Voltar ao menu principal");
+            System.out.print("-> ");
             int opcao = sc.nextInt();
 
             switch (opcao) {
@@ -52,6 +53,7 @@ public class QuartoView {
     private static void criarQuarto(Scanner sc, QuartoDAO quartoDAO){
         System.out.println("Número do Quarto: ");
         int numero = sc.nextInt();
+        sc.nextLine();
         System.out.println("Tipo do Quarto: ");
         String tipo = sc.nextLine();
         System.out.println("Preço do Quarto: ");
@@ -75,7 +77,12 @@ public class QuartoView {
         int numero = sc.nextInt();
 
         try{
-            quartoDAO.visualizarQuarto(numero);
+            Quarto quarto = quartoDAO.visualizarQuarto(numero);
+            if (quarto == null) {
+                System.out.println("\nNenhum quarto encontrado com o número informado!");
+            } else{
+                System.out.println(quarto);
+            }
         } catch(SQLException e){
             System.out.println("Erro ao visualizar o quarto: " + e.getMessage());
         }
@@ -92,6 +99,7 @@ public class QuartoView {
                 return;
             }
 
+            sc.nextLine();
             System.out.println("Novo Tipo do Quarto: ");
             String tipo = sc.nextLine();
             System.out.println("Novo Preço do Quarto: ");
@@ -102,7 +110,6 @@ public class QuartoView {
 
             Quarto quartoAtualizado = new Quarto(numero, tipo, preco, status);
             quartoDAO.atualizarQuarto(quartoAtualizado);
-            System.out.println("Quarto atualizado com sucesso!");
 
         } catch(SQLException e){
             System.out.println("Erro ao atualizar o quarto: " + e.getMessage());
@@ -115,7 +122,6 @@ public class QuartoView {
 
         try{
             quartoDAO.removerQuarto(numero);
-            System.out.println("Quarto removido com sucesso!");
         } catch(SQLException e){
             System.out.println("Erro ao remover o quarto: " + e.getMessage());
         }

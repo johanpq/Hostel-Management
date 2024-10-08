@@ -46,15 +46,15 @@ public class QuartoDAO {
     }
 
     public void atualizarQuarto(Quarto quarto) throws SQLException{
-        String sql = "UPDATE quarto set numero = ?, tipo = ?, preco = ?, status = ? WHERE numero = ?";
+        String sql = "UPDATE quarto set tipo = ?, preco = ?, status = ? WHERE numero = ?";
         
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
 
-                stmt.setInt(1, quarto.getNumero());
-                stmt.setString(2, quarto.getTipo());
-                stmt.setDouble(3, quarto.getPreco());
-                stmt.setBoolean(4, quarto.getStatus());
+                stmt.setString(1, quarto.getTipo());
+                stmt.setDouble(2, quarto.getPreco());
+                stmt.setBoolean(3, quarto.getStatus());
+                stmt.setInt(4, quarto.getNumero());
 
                 int rowsUpdate = stmt.executeUpdate();
                 if (rowsUpdate > 0) {
@@ -98,7 +98,6 @@ public class QuartoDAO {
                                           rs.getDouble("preco"), 
                                           rs.getBoolean("status"));
                     } else{
-                        System.out.println("Nenhum quarto encontrado com o número informado!");
                         return null;
                     }
                 }
