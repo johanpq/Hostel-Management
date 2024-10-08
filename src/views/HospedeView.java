@@ -21,7 +21,7 @@ public class HospedeView {
             System.out.println("4. Remover Hóspede");
             System.out.println("5. Listar todos os Hóspedes");
             System.out.println("6. Voltar ao menu principal");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("-> ");
 
             String opcaoStr = sc.nextLine();  
             int opcao;
