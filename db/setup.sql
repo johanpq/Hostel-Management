@@ -25,6 +25,6 @@ CREATE TABLE hospede (
 	telefone VARCHAR(15) not null,
 	email VARCHAR(50) not null,
 	senha VARCHAR(10) not null,
-	alimento_restrito VARCHAR(20) not null,
+	alimentoRestrito VARCHAR(20) not null,
 	PRIMARY KEY (documento)
 )
