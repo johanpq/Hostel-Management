@@ -7,21 +7,30 @@ import java.util.Scanner;
 import models.Hospede;
 
 public class HospedeView {
+
     public static void gerenciarHospede() {
         Scanner sc = new Scanner(System.in);
         HospedeDAO hospedeDAO = new HospedeDAO();
         boolean run = true;
 
         while (run) {
-            System.out.println("\nGerenciamento de Hospedes\n");
-            System.out.println("1. Criar Hospede\n");
-            System.out.println("2. Visualizar Hospede\n");
-            System.out.println("3. Atualizar Hospede\n");
-            System.out.println("4. Remover Hospede\n");
-            System.out.println("5. Listar todos os Hospedes\n");
-            System.out.println("6. Voltar ao menu principal\n");
-            int opcao = sc.nextInt();
-            sc.nextLine(); // Consumir a quebra de linha após o nextInt()
+            System.out.println("Gerenciamento de Hóspedes");
+            System.out.println("1. Criar Hóspede");
+            System.out.println("2. Visualizar Hóspede");
+            System.out.println("3. Atualizar Hóspede");
+            System.out.println("4. Remover Hóspede");
+            System.out.println("5. Listar todos os Hóspedes");
+            System.out.println("6. Voltar ao menu principal");
+            System.out.print("Escolha uma opção: ");
+
+            String opcaoStr = sc.nextLine();  
+            int opcao;
+            try {
+                opcao = Integer.parseInt(opcaoStr);  
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida. Digite um número.");
+                continue;  // Se der erro, volta ao começo do loop
+            }
 
             switch (opcao) {
                 case 1:
@@ -40,8 +49,8 @@ public class HospedeView {
                     listarHospedes(hospedeDAO);
                     break;
                 case 6:
-                    run = false;
-                    break;
+                    System.out.println("Voltando ao menu principal...");
+                    return;  
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;
@@ -51,39 +60,39 @@ public class HospedeView {
     }
 
     private static void criarHospede(Scanner sc, HospedeDAO hospedeDAO) {
-        System.out.println("Nome: ");
+        System.out.print("Nome: ");
         String nome = sc.nextLine();
-        System.out.println("Documento: ");
+        System.out.print("Documento: ");
         String documento = sc.nextLine();
-        System.out.println("Telefone: ");
+        System.out.print("Telefone: ");
         String telefone = sc.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
-        System.out.println("Senha: ");
+        System.out.print("Senha: ");
         String senha = sc.nextLine();
-        System.out.println("Alimento Restrito: ");
+        System.out.print("Alimento Restrito: ");
         String alimentoRestrito = sc.nextLine();
-        System.out.println("\nCriando um novo Hospede...");
+        System.out.println("Criando um novo Hóspede...");
 
-        // Cria o objeto Hospede com os novos parâmetros
+        
         Hospede hospede = new Hospede(nome, documento, telefone, email, senha, alimentoRestrito);
 
         try {
-            hospedeDAO.criarHospede(hospede);  
-            System.out.println("Hospede criado com sucesso!");
+            hospedeDAO.criarHospede(hospede);
+            System.out.println("Hóspede criado com sucesso!");
         } catch (SQLException e) {
-            System.out.println("Erro ao criar o hospede: " + e.getMessage());
+            System.out.println("Erro ao criar o hóspede: " + e.getMessage());
         }
     }
 
     private static void visualizarHospede(Scanner sc, HospedeDAO hospedeDAO) {
-        System.out.println("Informe o documento do hospede a ser visualizado: ");
+        System.out.print("Informe o documento do hóspede a ser visualizado: ");
         String documento = sc.nextLine();
 
         try {
-            Hospede hospede = hospedeDAO.vizualizarHospede(documento);  
+            Hospede hospede = hospedeDAO.vizualizarHospede(documento);
             if (hospede != null) {
-                System.out.println("Hóspede encontrado: \n\n" + hospede);
+                System.out.println("Hóspede encontrado: " + hospede);
             } else {
                 System.out.println("Hóspede não encontrado.");
             }
@@ -93,56 +102,56 @@ public class HospedeView {
     }
 
     private static void atualizarHospede(Scanner sc, HospedeDAO hospedeDAO) {
-        System.out.println("Informe o documento do hospede a ser atualizado: ");
+        System.out.print("Informe o documento do hóspede a ser atualizado: ");
         String documento = sc.nextLine();
 
         try {
             Hospede hospedeExistente = hospedeDAO.vizualizarHospede(documento);
             if (hospedeExistente == null) {
-                System.out.println("Hospede não encontrado!");
+                System.out.println("Hóspede não encontrado!");
                 return;
             }
 
-            System.out.println("Novo Nome do Hospede: ");
+            System.out.print("Novo Nome do Hóspede: ");
             String nome = sc.nextLine();
-            System.out.println("Novo Telefone do Hospede: ");
+            System.out.print("Novo Telefone do Hóspede: ");
             String telefone = sc.nextLine();
-            System.out.println("Novo Email do Hospede: ");
+            System.out.print("Novo Email do Hóspede: ");
             String email = sc.nextLine();
-            System.out.println("Nova Senha do Hospede: ");
+            System.out.print("Nova Senha do Hóspede: ");
             String senha = sc.nextLine();
-            System.out.println("Novo Alimento Restrito: ");
+            System.out.print("Novo Alimento Restrito: ");
             String alimentoRestrito = sc.nextLine();
-            System.out.println("\nAtualizando um Hospede...");
+            System.out.println("Atualizando Hóspede...");
 
-            // Cria o objeto Hospede atualizado
+            
             Hospede hospedeAtualizado = new Hospede(nome, documento, telefone, email, senha, alimentoRestrito);
             hospedeDAO.atualizarHospede(hospedeAtualizado);
-            System.out.println("Hospede atualizado com sucesso!");
+            System.out.println("Hóspede atualizado com sucesso!");
 
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar o hospede: " + e.getMessage());
+            System.out.println("Erro ao atualizar o hóspede: " + e.getMessage());
         }
     }
 
     private static void listarHospedes(HospedeDAO hospedeDAO) {
-        System.out.println("\nListando todos os Hospedes...");
+        System.out.println("Listando todos os Hóspedes...");
         try {
             List<Hospede> hospedes = hospedeDAO.listarHospedes();
             if (hospedes.isEmpty()) {
-                System.out.println("Nenhum Hospede encontrado!");
+                System.out.println("Nenhum hóspede encontrado!");
             } else {
                 for (Hospede hospede : hospedes) {
                     System.out.println(hospede);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao listar os hospedes: " + e.getMessage());
+            System.out.println("Erro ao listar os hóspedes: " + e.getMessage());
         }
     }
 
     private static void removerHospede(Scanner sc, HospedeDAO hospedeDAO) {
-        System.out.println("Informe o documento do hospede a ser removido: ");
+        System.out.print("Informe o documento do hóspede a ser removido: ");
         String documento = sc.nextLine();
 
         try {
