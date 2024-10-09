@@ -8,7 +8,7 @@ import models.Hospede;
 
 public class HospedeView {
 
-    public static void gerenciarHospede() {
+    public static void gerenciarHospedeFuncionario() {
         Scanner sc = new Scanner(System.in);
         HospedeDAO hospedeDAO = new HospedeDAO();
         boolean run = true;
@@ -35,7 +35,7 @@ public class HospedeView {
             switch (opcao) {
                 case 1:
                     criarHospede(sc, hospedeDAO);
-                    break;
+                break;
                 case 2:
                     visualizarHospede(sc, hospedeDAO);
                     break;
@@ -59,7 +59,54 @@ public class HospedeView {
         sc.close(); 
     }
 
-    private static void criarHospede(Scanner sc, HospedeDAO hospedeDAO) {
+    public static void gerenciarHospede() {
+        Scanner sc = new Scanner(System.in);
+        HospedeDAO hospedeDAO = new HospedeDAO();
+        boolean run = true;
+
+        while (run) {
+            System.out.println("Gerenciamento de Hóspedes");
+            System.out.println("1. Visualizar Hóspede");
+            System.out.println("2. Atualizar Hóspede");
+            System.out.println("3. Remover Hóspede");
+            System.out.println("4. Listar todos os Hóspedes");
+            System.out.println("5. Voltar ao menu principal");
+            System.out.print("-> ");
+
+            String opcaoStr = sc.nextLine();  
+            int opcao;
+            try {
+                opcao = Integer.parseInt(opcaoStr);  
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida. Digite um número.");
+                continue;  // Se der erro, volta ao começo do loop
+            }
+
+            switch (opcao) {
+                case 1:
+                    visualizarHospede(sc, hospedeDAO);
+                    break;
+                case 2:
+                    atualizarHospede(sc, hospedeDAO);
+                    break;
+                case 3:
+                    removerHospede(sc, hospedeDAO);
+                    break;
+                case 4:
+                    listarHospedes(hospedeDAO);
+                    break;
+                case 5:
+                    System.out.println("Voltando ao menu principal...");
+                    return;  
+                default:
+                    System.out.println("Opção Inválida. Tente novamente!");
+                    break;
+            }
+        }
+        sc.close(); 
+    }
+
+    public static void criarHospede(Scanner sc, HospedeDAO hospedeDAO) {
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("Documento: ");
