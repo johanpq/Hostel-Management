@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FuncionarioDAO {
     public void criarFuncionario(Funcionario fucionario) throws SQLException{
-        String sql = "INSERT INTO funcionario (nome, documento, telefone, email, senha, cargo, admin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcionario (nome, documento, telefone, email, senha, cargo) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -20,7 +20,6 @@ public class FuncionarioDAO {
                 stmt.setString(4, fucionario.getEmail());
                 stmt.setString(5, fucionario.getSenha());
                 stmt.setString(6, fucionario.getCargo());
-                stmt.setBoolean(7, fucionario.getAdmin());
                 stmt.executeUpdate();
              }
     }
@@ -39,9 +38,7 @@ public class FuncionarioDAO {
                                                               rs.getString("telefone"), 
                                                               rs.getString("email"),
                                                               rs.getString("senha"),
-                                                              rs.getString("cargo"),
-                                                              rs.getBoolean("admin"));
-                                               
+                                                              rs.getString("cargo"));
                     fucionarios.add(funcionario);
                 }
 
@@ -50,18 +47,17 @@ public class FuncionarioDAO {
     }
 
     public void atualizarFuncionario(Funcionario funcionario) throws SQLException{
-        String sql = "UPDATE funcionario set nome = ?, documento = ?, telefone = ?, email = ?, senha = ?, cargo = ?, amdin = ? WHERE documento = ?";
+        String sql = "UPDATE funcionario set nome = ?, telefone = ?, email = ?, senha = ?, cargo = ? WHERE documento = ?";
         
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
 
                 stmt.setString(1, funcionario.getNome());
-                stmt.setString(2, funcionario.getDocumento());
-                stmt.setString(3, funcionario.getTelefone());
-                stmt.setString(4, funcionario.getEmail());
-                stmt.setString(5, funcionario.getSenha());
-                stmt.setString(6, funcionario.getCargo());
-                stmt.setBoolean(7, funcionario.getAdmin());
+                stmt.setString(2, funcionario.getTelefone());
+                stmt.setString(3, funcionario.getEmail());
+                stmt.setString(4, funcionario.getSenha());
+                stmt.setString(5, funcionario.getCargo());
+                stmt.setString(6, funcionario.getDocumento());
 
                 int rowsUpdate = stmt.executeUpdate();
                 if (rowsUpdate > 0) {
@@ -79,7 +75,7 @@ public class FuncionarioDAO {
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
 
-                stmt.setString(2, documento);
+                stmt.setString(1, documento);
                 
                 int rowsDeleted = stmt.executeUpdate();
                 if(rowsDeleted > 0){
@@ -96,7 +92,7 @@ public class FuncionarioDAO {
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
 
-                stmt.setString(2, documento);
+                stmt.setString(1, documento);
 
                 try(ResultSet rs = stmt.executeQuery()){
                     if (rs.next()) {
@@ -105,10 +101,8 @@ public class FuncionarioDAO {
                                                rs.getString("telefone"), 
                                                rs.getString("email"),
                                                rs.getString("senha"),
-                                               rs.getString("cargo"),
-                                               rs.getBoolean("admin"));
+                                               rs.getString("cargo"));
                     } else{
-                        System.out.println("Nenhum funcionário encontrado com o documento informado!");
                         return null;
                     }
                 }

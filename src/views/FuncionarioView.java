@@ -15,12 +15,13 @@ public class FuncionarioView {
 
         while (run) {
             System.out.println("\nGerenciamento de Funcionários\n");
-            System.out.println("1. Criar Funcionário\n");
+            System.out.println("1. Criar Funcionário");
             System.out.println("2. Visualizar Funcionário");
             System.out.println("3. Atualizar Funcionário");
             System.out.println("4. Remover Funcionário");
             System.out.println("5. Listar todos os Funcionários");
             System.out.println("6. Voltar ao menu principal");
+            System.out.print("-> ");
             int opcao = sc.nextInt();
 
             switch (opcao) {
@@ -49,23 +50,22 @@ public class FuncionarioView {
     }
 
     private static void criarFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
-        System.out.println("Nome: ");
+        sc.nextLine();
+        System.out.print("Nome: ");
         String nome = sc.nextLine();
-        System.out.println("Documento: ");
+        System.out.print("Documento: ");
         String documento = sc.nextLine();
-        System.out.println("Telefone: ");
+        System.out.print("Telefone: ");
         String telefone = sc.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
-        System.out.println("Senha: ");
+        System.out.print("Senha: ");
         String senha = sc.nextLine();
-        System.out.println("Cargo: ");
+        System.out.print("Cargo: ");
         String cargo = sc.nextLine();
-        System.out.println("Administrador(true se é administrador, false se não é administrador): ");
-        boolean admin = sc.nextBoolean();
         System.out.println("\nCriando um novo funcionário...");
 
-        Funcionario funcionario = new Funcionario(nome, documento, telefone, email, senha, cargo, admin);
+        Funcionario funcionario = new Funcionario(nome, documento, telefone, email, senha, cargo);
         
         try{
             funcionarioDAO.criarFuncionario(funcionario);
@@ -76,17 +76,24 @@ public class FuncionarioView {
     }
 
     private static void visualizarFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
-        System.out.println("Informe o doucumento do funcionário a ser visualizado: ");
+        sc.nextLine();
+        System.out.println("Informe o documento do funcionário a ser visualizado: ");
         String documento = sc.nextLine();
 
         try{
-            funcionarioDAO.visualizarFuncionario(documento);
+            Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documento);
+            if (funcionario == null) {
+                System.out.println("\nNenhum funcionário encontrado com o documento informado!");
+            } else{
+                System.out.println(funcionario);
+            }
         } catch(SQLException e){
             System.out.println("Erro ao visualizar o funcionário: " + e.getMessage());
         }
     }
 
     private static void atualizarFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
+        sc.nextLine();
         System.out.println("Informe o documento do funcionário a ser atualizado: ");
         String documento = sc.nextLine();
 
@@ -99,8 +106,6 @@ public class FuncionarioView {
 
             System.out.println("Novo Nome do Funcionário: ");
             String nome = sc.nextLine();
-            System.out.println("Novo Documento do Funcionário: ");
-            documento = sc.nextLine();
             System.out.println("Novo Telefone do Funcionário: ");
             String telefone = sc.nextLine();
             System.out.println("Novo Email do Funcionário: ");
@@ -109,13 +114,10 @@ public class FuncionarioView {
             String senha = sc.nextLine();
             System.out.println("Novo Cargo do Funcionário: ");
             String cargo = sc.nextLine();
-            System.out.println("Administrador(true se é administrador, false se não é administrador): ");
-            boolean admin = sc.nextBoolean();
             System.out.println("\nAtualizando um Funcionário...");
 
-            Funcionario funcionarioAtualizado = new Funcionario(nome, documento, telefone, email, senha, cargo, admin);
+            Funcionario funcionarioAtualizado = new Funcionario(nome, documento, telefone, email, senha, cargo);
             funcionarioDAO.atualizarFuncionario(funcionarioAtualizado);
-            System.out.println("Funcionário atualizado com sucesso!");
 
         } catch(SQLException e){
             System.out.println("Erro ao atualizar o funcionário: " + e.getMessage());
@@ -123,12 +125,12 @@ public class FuncionarioView {
     }
 
     private static void removerFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
+        sc.nextLine();
         System.out.println("Informe o documento do funcionário a ser removido: ");
         String documento = sc.nextLine();
 
         try{
             funcionarioDAO.removerFuncionario(documento);
-            System.out.println("Funcionário removido com sucesso!");
         } catch(SQLException e){
             System.out.println("Erro ao remover o funcionário: " + e.getMessage());
         }
