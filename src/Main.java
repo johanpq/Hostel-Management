@@ -4,14 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import config.ConnectionFactory;
+import dao.HospedeDAO;
 import views.FuncionarioView;
 import views.HospedeView;
 import views.QuartoView;
+import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean loginDeuCerto = false;
+        HospedeDAO hospedeDao = new HospedeDAO();
 
         do {
             try {
@@ -33,29 +36,65 @@ public class Main {
                         System.out.print("Senha: ");
                         String senha = input.nextLine();
         
-                        loginDeuCerto = checarAdmin(input, email, senha);
+                        loginDeuCerto = checaFuncionario(input, email, senha);
 
                         if(loginDeuCerto) {
                             mostrarMenu(input);
-                        } else {
-                            System.err.println("É funcionário mais sem ser Admin");
                         }
 
                         System.out.println("-------------------------");
 
                         break;
                     case 2:
-                        System.out.println("Case 2 hospede");
+                        loginDeuCerto = false;
+                        System.out.println("-------------------------");
+                        System.out.println("1. Entrar");
+                        System.out.println("2. Cadastrar");
+                        System.out.println("-------------------------");
+                        int escolha = input.nextInt();
+
+                        switch(escolha) {
+                            case 1:
+                                input.nextLine();
+                                System.out.println("----------LOGIN----------");
+                    
+                                System.out.print("Email: ");
+                                String emailHospede = input.nextLine();
+                
+                                System.out.print("Senha: ");
+                                String senhaHospede = input.nextLine();
+                
+                                loginDeuCerto = checaHospede(input, emailHospede, senhaHospede);
+        
+                                if(loginDeuCerto) {
+                                    HospedeView.gerenciarHospede();
+                                }
+        
+                                System.out.println("-------------------------");
+
+                                break;
+
+                            case 2:
+                                input.nextLine();
+                                HospedeView.criarHospede(input, hospedeDao);
+                                break;
+                            default :
+                                System.out.println("Opção inválida! ");
+                        }
+
                         break;
-    
+
                     default:
                         System.out.println("Opção Inválida!");
                 } 
-                break;
-
+ 
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida! Tente novamente.");
+                input.nextLine(); 
             } catch (Exception e) {
-                System.out.println("Ocorreu uma exceção! Tente novamente!");
-            } 
+                System.out.println("Ocorreu um erro! Tente novamente.");
+                e.printStackTrace();
+            }
                 
         } while(!loginDeuCerto);
         input.close();
@@ -77,7 +116,7 @@ public class Main {
     
                 switch (escolha) {
                     case 1:
-                        HospedeView.gerenciarHospede();
+                        HospedeView.gerenciarHospedeFuncionario();
                         break;
                     case 2:
                         FuncionarioView.gerenciarFuncionarios();
@@ -103,9 +142,35 @@ public class Main {
         } while(!sair);
     }
 
-    public static boolean checarAdmin(Scanner input, String email, String senha) {
+    public static boolean checaFuncionario(Scanner input, String email, String senha) {
         boolean login = false;
         String sql = "SELECT * FROM funcionario WHERE email = ? AND senha = ?";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, email);
+            statement.setString(2, senha);
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                login = true;
+            } else {
+                login = false;
+                System.out.println("Email ou senha incorretos!");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados ou executar a consulta!");
+            e.printStackTrace();
+        }
+        return login;
+    }
+
+    public static boolean checaHospede(Scanner input, String email, String senha) {
+        boolean login = false;
+        String sql = "SELECT * FROM hospede WHERE email = ? AND senha = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
