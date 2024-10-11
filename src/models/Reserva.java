@@ -1,14 +1,16 @@
 package models;
 
+import java.time.LocalDate;
+
 public class Reserva {
     private int numeroReserva;
-    private String dataEntrada;
-    private String dataSaida;
+    private LocalDate dataEntrada;
+    private LocalDate dataSaida;
     private Funcionario funcionario;
     private Quarto quarto;
     private Hospede hospede;
 
-    public Reserva(int numeroReserva, String dataEntrada, String dataSaida, Funcionario funcionario, Quarto quarto, Hospede hospede) {
+    public Reserva(int numeroReserva, LocalDate dataEntrada, LocalDate dataSaida, Funcionario funcionario, Quarto quarto, Hospede hospede) {
         this.numeroReserva = numeroReserva;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
@@ -21,11 +23,11 @@ public class Reserva {
         this.numeroReserva = numeroReserva;
     }
 
-    public void setDataEntrada(String dataEntrada) {
+    public void setDataEntrada(LocalDate dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
 
-    public void setDataSaida(String dataSaida) {
+    public void setDataSaida(LocalDate dataSaida) {
         this.dataSaida = dataSaida;
     }
  
@@ -33,11 +35,11 @@ public class Reserva {
         return numeroReserva;
     }
 
-    public String getDataEntrada() {
+    public LocalDate getDataEntrada() {
         return dataEntrada;
     }
 
-    public String getDataSaida() {
+    public LocalDate getDataSaida() {
         return dataSaida;
     }
 
