@@ -14,7 +14,7 @@ public class HospedeView {
         boolean run = true;
 
         while (run) {
-            System.out.println("Gerenciamento de Hóspedes");
+            System.out.println("\nGerenciamento de Hóspedes\n");
             System.out.println("1. Criar Hóspede");
             System.out.println("2. Visualizar Hóspede");
             System.out.println("3. Atualizar Hóspede");
@@ -23,10 +23,10 @@ public class HospedeView {
             System.out.println("6. Voltar ao menu principal");
             System.out.print("-> ");
 
-            String opcaoStr = sc.nextLine();  
+            String opcaoStr = sc.nextLine();
             int opcao;
             try {
-                opcao = Integer.parseInt(opcaoStr);  
+                opcao = Integer.parseInt(opcaoStr);
             } catch (NumberFormatException e) {
                 System.out.println("Opção inválida. Digite um número.");
                 continue;  // Se der erro, volta ao começo do loop
@@ -35,7 +35,7 @@ public class HospedeView {
             switch (opcao) {
                 case 1:
                     criarHospede(sc, hospedeDAO);
-                break;
+                    break;
                 case 2:
                     visualizarHospede(sc, hospedeDAO);
                     break;
@@ -49,14 +49,14 @@ public class HospedeView {
                     listarHospedes(hospedeDAO);
                     break;
                 case 6:
-                    System.out.println("Voltando ao menu principal...");
-                    return;  
+                    System.out.println("\nVoltando ao menu principal...\n");
+                    return;
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;
             }
         }
-        sc.close(); 
+        sc.close();
     }
 
     public static void gerenciarHospede() {
@@ -65,7 +65,7 @@ public class HospedeView {
         boolean run = true;
 
         while (run) {
-            System.out.println("Gerenciamento de Hóspedes");
+            System.out.println("Gerenciamento de Hóspedes\n");
             System.out.println("1. Visualizar Hóspede");
             System.out.println("2. Atualizar Hóspede");
             System.out.println("3. Remover Hóspede");
@@ -73,10 +73,10 @@ public class HospedeView {
             System.out.println("5. Voltar ao menu principal");
             System.out.print("-> ");
 
-            String opcaoStr = sc.nextLine();  
+            String opcaoStr = sc.nextLine();
             int opcao;
             try {
-                opcao = Integer.parseInt(opcaoStr);  
+                opcao = Integer.parseInt(opcaoStr);
             } catch (NumberFormatException e) {
                 System.out.println("Opção inválida. Digite um número.");
                 continue;  // Se der erro, volta ao começo do loop
@@ -97,13 +97,13 @@ public class HospedeView {
                     break;
                 case 5:
                     System.out.println("Voltando ao menu principal...");
-                    return;  
+                    return;
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;
             }
         }
-        sc.close(); 
+        sc.close();
     }
 
     public static void criarHospede(Scanner sc, HospedeDAO hospedeDAO) {
@@ -121,7 +121,6 @@ public class HospedeView {
         String alimentoRestrito = sc.nextLine();
         System.out.println("Criando um novo Hóspede...");
 
-        
         Hospede hospede = new Hospede(nome, documento, telefone, email, senha, alimentoRestrito);
 
         try {
@@ -161,39 +160,20 @@ public class HospedeView {
 
             System.out.print("Novo Nome do Hóspede: ");
             String nome = sc.nextLine();
-            System.out.print("Novo Telefone do Hóspede: ");
+            System.out.print("Novo Telefone: ");
             String telefone = sc.nextLine();
-            System.out.print("Novo Email do Hóspede: ");
+            System.out.print("Novo Email: ");
             String email = sc.nextLine();
-            System.out.print("Nova Senha do Hóspede: ");
+            System.out.print("Nova Senha: ");
             String senha = sc.nextLine();
             System.out.print("Novo Alimento Restrito: ");
             String alimentoRestrito = sc.nextLine();
-            System.out.println("Atualizando Hóspede...");
 
-            
             Hospede hospedeAtualizado = new Hospede(nome, documento, telefone, email, senha, alimentoRestrito);
             hospedeDAO.atualizarHospede(hospedeAtualizado);
             System.out.println("Hóspede atualizado com sucesso!");
-
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar o hóspede: " + e.getMessage());
-        }
-    }
-
-    private static void listarHospedes(HospedeDAO hospedeDAO) {
-        System.out.println("Listando todos os Hóspedes...");
-        try {
-            List<Hospede> hospedes = hospedeDAO.listarHospedes();
-            if (hospedes.isEmpty()) {
-                System.out.println("Nenhum hóspede encontrado!");
-            } else {
-                for (Hospede hospede : hospedes) {
-                    System.out.println(hospede);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar os hóspedes: " + e.getMessage());
         }
     }
 
@@ -203,9 +183,24 @@ public class HospedeView {
 
         try {
             hospedeDAO.removerHospede(documento);
-            System.out.println("Hóspede removido com sucesso!");
+            System.out.println("Hóspede removido com sucesso!\n");
         } catch (SQLException e) {
-            System.out.println("Erro ao remover o hóspede: " + e.getMessage());
+            System.out.println("Erro ao remover o hóspede: \n " + e.getMessage());
+        }
+    }
+
+    private static void listarHospedes(HospedeDAO hospedeDAO) {
+        try {
+            List<Hospede> hospedes = hospedeDAO.listarHospedes();
+            if (hospedes.isEmpty()) {
+                System.out.println("Não há hóspedes cadastrados.");
+            } else {
+                for (Hospede hospede : hospedes) {
+                    System.out.println(hospede);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar hóspedes: " + e.getMessage());
         }
     }
 }
