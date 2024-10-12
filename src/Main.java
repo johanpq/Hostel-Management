@@ -13,14 +13,16 @@ import java.util.InputMismatchException;
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        boolean loginDeuCerto = false;
+        boolean continuar = true;
         HospedeDAO hospedeDao = new HospedeDAO();
-
-        do {
+        
+        while(continuar) {
             try {
+                boolean loginDeuCerto = false;
                 System.out.println("****SELECIONE****");
                 System.out.println("1. Funcionário");
                 System.out.println("2. Hospede");
+                System.out.println("3. Sair");
                 System.out.print("-> ");
                 int funcOuHosp = input.nextInt();
                 
@@ -83,6 +85,9 @@ public class Main {
                         }
 
                         break;
+                    case 3:
+                        continuar = false;
+                        break;
 
                     default:
                         System.out.println("Opção Inválida!");
@@ -96,7 +101,7 @@ public class Main {
                 e.printStackTrace();
             }
                 
-        } while(!loginDeuCerto);
+        };
         input.close();
     }
 
