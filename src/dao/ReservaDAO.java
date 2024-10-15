@@ -20,8 +20,8 @@ public class ReservaDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 stmt.setInt(1, reserva.getNumeroReserva());
-                stmt.setDate(2, reserva.getDataEntrada());
-                stmt.setDate(3, reserva.getDataSaida());
+                stmt.setDate(2, Date.valueOf(reserva.getDataEntrada()));
+                stmt.setDate(3, Date.valueOf(reserva.getDataSaida()));
                 stmt.setString(4, reserva.getFuncionario().getDocumento());
                 stmt.setInt(5, reserva.getQuarto().getNumero());
                 stmt.setString(6, reserva.getHospede().getDocumento());
@@ -47,8 +47,8 @@ public class ReservaDAO {
                     Hospede hospede = obterHospede(documentoHospede);
 
                     Reserva reserva = new Reserva(rs.getInt("numeroReserva"),
-                                                  rs.getDate("dataEntrada"),
-                                                  rs.getDate("dataSaida"),
+                                                  rs.getDate("dataEntrada").toLocalDate(),
+                                                  rs.getDate("dataSaida").toLocalDate(),
                                                   funcionario, quarto, hospede);
  
                     reservas.add(reserva);
@@ -103,8 +103,8 @@ public class ReservaDAO {
         String sql = "SELECT * FROM reserva WHERE numeroReserva = ?";
 
         try(Connection conn = ConnectionFactory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()){
 
                 stmt.setInt(1, numeroReserva);
 
@@ -118,8 +118,8 @@ public class ReservaDAO {
                     Hospede hospede = obterHospede(documentoHospede);
                     
                     return new Reserva(rs.getInt("numeroReserva"), 
-                                       rs.getString("dataEntrada"), 
-                                       rs.getString("dataSaida"),
+                                       rs.getDate("dataEntrada").toLocalDate(), 
+                                       rs.getDate("dataSaida").toLocalDate(),
                                        funcionario, quarto, hospede);
                                   
                 } else{
