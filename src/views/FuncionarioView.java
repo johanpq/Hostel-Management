@@ -22,7 +22,15 @@ public class FuncionarioView {
             System.out.println("5. Listar todos os Funcionários");
             System.out.println("6. Voltar ao menu principal");
             System.out.print("-> ");
-            int opcao = sc.nextInt();
+
+            String opcaoStr = sc.nextLine();
+            int opcao;
+            try {
+                opcao = Integer.parseInt(opcaoStr);  
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida. Digite um número.");
+                continue;  // Se der erro, volta ao começo do loop
+            }
 
             switch (opcao) {
                 case 1:
@@ -40,13 +48,14 @@ public class FuncionarioView {
                 case 5:
                     listarFuncionarios(funcionarioDAO);
                 case 6:
-                    run = false;
-                    break;
+                    System.out.println("Voltando ao menu principal...");
+                    return;
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;
             }
         }
+        sc.close();
     }
 
     private static void criarFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
