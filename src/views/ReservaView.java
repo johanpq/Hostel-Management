@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReservaView {
-    public static void gerenciarReservas(){
+    public static void gerenciarReservas() throws SQLException{
         Scanner sc = new Scanner(System.in);
         ReservaDAO reservaDAO = new ReservaDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
@@ -67,7 +67,7 @@ public class ReservaView {
         }
     }
 
-    private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO){
+    private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO) throws SQLException{
         System.out.println("Número da Reserva: ");
         int numeroReserva = sc.nextInt();
         System.out.println("Data de entrada(AAAA-MM-DD): ");
@@ -77,7 +77,7 @@ public class ReservaView {
 
         System.out.println("Informe o documento do funcionário: ");
         String documentoF = sc.nextLine();
-        Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documento);
+        Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documentoF);
         if (funcionario == null) {
             System.out.println("Nenhum funcionário encontrado com o documento informado!");
             return;
@@ -124,8 +124,30 @@ public class ReservaView {
         }
     }
 
-    private static void atualizarReserva(Scanner sc, reservaDAO){
+    private static void atualizarReserva(Scanner sc, ReservaDAO reservaDAO){
+        System.out.print("Número da Reserva: ");
+        int numeroReserva = sc.nextInt();
+        sc.nextLine();
 
+        try {
+            Reserva reservaExistente = reservaDAO.visualizarReserva(numeroReserva);
+            if (reservaExistente == null) {
+                System.out.println("\nNenhuma reserva encontrada com o número informado!");
+                return;
+            }
+
+            System.out.print("Nova Data de Entrada (AAAA-MM-DD): ");
+            LocalDate novaDataEntrada = LocalDate.parse(sc.nextLine());
+            System.out.print("Nova Data de Saída (AAAA-MM-DD): ");
+            LocalDate novaDataSaida = LocalDate.parse(sc.nextLine());
+
+            reservaExistente.setDataEntrada(novaDataEntrada);
+            reservaExistente.setDataSaida(novaDataSaida);
+            reservaDAO.atualizarReserva(reservaExistente);
+
+        }catch (SQLException e) {
+            System.out.println("Erro ao atualizar a reserva: " + e.getMessage());
+        }
     }
 
     private static void removerReserva(Scanner sc, ReservaDAO reservaDAO){
@@ -133,7 +155,7 @@ public class ReservaView {
         int numeroReserva = sc.nextInt();
 
         try{
-            reservaDAO.removerReserva(numero);
+            reservaDAO.removerReserva(numeroReserva);
         } catch(SQLException e){
             System.out.println("Erro ao remover a reserva: " + e.getMessage());
         }
