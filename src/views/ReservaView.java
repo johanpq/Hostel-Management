@@ -90,6 +90,10 @@ public class ReservaView {
             System.out.println("Nenhum quarto encontrado com o número informado!");
             return;
         }
+        if (!quarto.getStatus()){
+            System.out.println("O quarto já está resservado!");
+            return;
+        }
 
         System.out.println("Informe o documento do hóspede: ");
         String documentoH = sc.nextLine();
@@ -102,6 +106,8 @@ public class ReservaView {
         Reserva reserva = new Reserva(numeroReserva, dataEntrada, dataSaida, funcionario, quarto, hospede);
         try{
             reservaDAO.criarReserva(reserva);
+            quarto.setStatus(false);
+            quartoDAO.atualizarStatusQuarto(quarto);
             System.out.println("Reserva criada com sucesso!");
         } catch(SQLException e){
             System.out.println("Erro ao criar a reserva: " + e.getMessage());
