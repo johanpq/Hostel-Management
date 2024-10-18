@@ -103,4 +103,23 @@ public class QuartoDAO {
                 }
             }
     }
+
+    public void atualizarStatusQuarto(Quarto quarto) throws SQLException{
+        String sql = "UPDATE quarto set status = ? WHERE numero = ?";
+        
+        try(Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+                stmt.setBoolean(1, quarto.getStatus());
+                stmt.setInt(2, quarto.getNumero());
+
+                int rowsUpdate = stmt.executeUpdate();
+                if (rowsUpdate > 0) {
+                    System.out.println("Status do quarto atualizado com sucesso!");
+                } else{
+                    System.out.println("Nenhum quarto encontrado com o número informado!");
+                }
+
+        }
+    }
 }
