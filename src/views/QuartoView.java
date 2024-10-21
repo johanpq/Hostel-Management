@@ -41,8 +41,8 @@ public class QuartoView {
                 case 5:
                     listarQuartos(quartoDAO);
                 case 6:
-                    run = false;
-                    break;
+                    System.out.println("Voltando ao menu principal...");
+                    return;
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;

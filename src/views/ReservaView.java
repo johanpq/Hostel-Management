@@ -57,9 +57,10 @@ public class ReservaView {
                     break;
                 case 5:
                     listarReservas(reservaDAO);
+                    break;
                 case 6:
                     System.out.println("Voltando ao menu principal...");
-                    continue;
+                    return;
                 default:
                     System.out.println("Opção Inválida. Tente novamente!");
                     break;
@@ -70,6 +71,7 @@ public class ReservaView {
     private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO) throws SQLException{
         System.out.println("Número da Reserva: ");
         int numeroReserva = sc.nextInt();
+        sc.nextLine();
         System.out.println("Data de entrada(AAAA-MM-DD): ");
         LocalDate dataEntrada = LocalDate.parse(sc.nextLine());
         System.out.println("Data de Saída(AAAA-MM-DD): ");
@@ -85,6 +87,7 @@ public class ReservaView {
 
         System.out.println("Informe o número do quarto: ");
         int numeroQuarto = sc.nextInt();
+        sc.nextLine();
         Quarto quarto = quartoDAO.visualizarQuarto(numeroQuarto);
         if (quarto == null) {
             System.out.println("Nenhum quarto encontrado com o número informado!");
@@ -117,6 +120,7 @@ public class ReservaView {
     private static void visualizarReserva(Scanner sc,ReservaDAO reservaDAO){
         System.out.println("Informe o número da reserva a ser visualizada: ");
         int numeroReserva = sc.nextInt();
+        sc.nextLine();
 
         try{
             Reserva reserva = reservaDAO.visualizarReserva(numeroReserva);
@@ -159,6 +163,7 @@ public class ReservaView {
     private static void removerReserva(Scanner sc, ReservaDAO reservaDAO){
         System.out.println("Informe o número da reserva a ser removido: ");
         int numeroReserva = sc.nextInt();
+        sc.nextLine();
 
         try{
             reservaDAO.removerReserva(numeroReserva);
