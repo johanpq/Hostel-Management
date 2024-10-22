@@ -14,7 +14,7 @@ import java.util.List;
 public class ReservaDAO {
 
     public void criarReserva(Reserva reserva) throws SQLException{
-        String sql = "INSERT reserva (numeroReserva, dataEntrada, dataSaida, documentoFuncionario, numeroQuarto, documentoHospede) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserva (numeroReserva, dataEntrada, dataSaida, documentoFuncionario, numeroQuarto, documentoHospede) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -59,7 +59,7 @@ public class ReservaDAO {
     }
 
     public void atualizarReserva(Reserva reserva) throws SQLException{
-        String sql = "UPDATE reserva set dataEntrada = ?, dataSaida = ?, nomeFuncionario = ?, numeroQuarto = ?, nomeHospede = ? WHERE numeroReserva = ?";
+        String sql = "UPDATE reserva set dataEntrada = ?, dataSaida = ?, documentoFuncionario = ?, numeroQuarto = ?, documentoHospede = ? WHERE numeroReserva = ?";
 
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -103,27 +103,28 @@ public class ReservaDAO {
         String sql = "SELECT * FROM reserva WHERE numeroReserva = ?";
 
         try(Connection conn = ConnectionFactory.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()){
+            PreparedStatement stmt = conn.prepareStatement(sql)){
 
                 stmt.setInt(1, numeroReserva);
 
-                if (rs.next()) {
-                    String documentoFuncionario = rs.getString("documentoFuncionario");
-                    int numeroQuarto = rs.getInt("numeroQuarto");
-                    String documentoHospede = rs.getString("documentoHospede");
+                try(ResultSet rs = stmt.executeQuery()){
+                    if (rs.next()) {
+                        String documentoFuncionario = rs.getString("documentoFuncionario");
+                        int numeroQuarto = rs.getInt("numeroQuarto");
+                        String documentoHospede = rs.getString("documentoHospede");
 
-                    Funcionario funcionario = obterFuncionario(documentoFuncionario);
-                    Quarto quarto = obterQuarto(numeroQuarto);
-                    Hospede hospede = obterHospede(documentoHospede);
-                    
-                    return new Reserva(rs.getInt("numeroReserva"), 
-                                       rs.getDate("dataEntrada").toLocalDate(), 
-                                       rs.getDate("dataSaida").toLocalDate(),
-                                       funcionario, quarto, hospede);
+                        Funcionario funcionario = obterFuncionario(documentoFuncionario);
+                        Quarto quarto = obterQuarto(numeroQuarto);
+                        Hospede hospede = obterHospede(documentoHospede);
+                        
+                        return new Reserva(rs.getInt("numeroReserva"), 
+                                        rs.getDate("dataEntrada").toLocalDate(), 
+                                        rs.getDate("dataSaida").toLocalDate(),
+                                        funcionario, quarto, hospede);
                                   
-                } else{
-                    return null;
+                    } else{
+                        return null;
+                    }
                 }
         }
     }

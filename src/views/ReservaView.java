@@ -50,10 +50,10 @@ public class ReservaView {
                     visualizarReserva(sc, reservaDAO);
                     break;
                 case 3:
-                    atualizarReserva(sc, reservaDAO);
+                    atualizarReserva(sc, reservaDAO, funcionarioDAO, quartoDAO, hospedeDAO);
                     break;
                 case 4:
-                    removerReserva(sc, reservaDAO);
+                    removerReserva(sc, reservaDAO, quartoDAO);
                     break;
                 case 5:
                     listarReservas(reservaDAO);
@@ -68,46 +68,47 @@ public class ReservaView {
         }
     }
 
-    private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO) throws SQLException{
+    private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO){
         System.out.println("Número da Reserva: ");
         int numeroReserva = sc.nextInt();
         sc.nextLine();
-        System.out.println("Data de entrada(AAAA-MM-DD): ");
-        LocalDate dataEntrada = LocalDate.parse(sc.nextLine());
-        System.out.println("Data de Saída(AAAA-MM-DD): ");
-        LocalDate dataSaida = LocalDate.parse(sc.nextLine());
-
-        System.out.println("Informe o documento do funcionário: ");
-        String documentoF = sc.nextLine();
-        Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documentoF);
-        if (funcionario == null) {
-            System.out.println("Nenhum funcionário encontrado com o documento informado!");
-            return;
-        }
-
-        System.out.println("Informe o número do quarto: ");
-        int numeroQuarto = sc.nextInt();
-        sc.nextLine();
-        Quarto quarto = quartoDAO.visualizarQuarto(numeroQuarto);
-        if (quarto == null) {
-            System.out.println("Nenhum quarto encontrado com o número informado!");
-            return;
-        }
-        if (!quarto.getStatus()){
-            System.out.println("O quarto já está resservado!");
-            return;
-        }
-
-        System.out.println("Informe o documento do hóspede: ");
-        String documentoH = sc.nextLine();
-        Hospede hospede = hospedeDAO.vizualizarHospede(documentoH);
-        if (hospede == null) {
-            System.out.println("Nenhum hóspede encontrado com o documento informado!");
-            return;
-        }
-
-        Reserva reserva = new Reserva(numeroReserva, dataEntrada, dataSaida, funcionario, quarto, hospede);
         try{
+            System.out.println("Data de entrada(AAAA-MM-DD): ");
+            LocalDate dataEntrada = LocalDate.parse(sc.nextLine());
+            System.out.println("Data de Saída(AAAA-MM-DD): ");
+            LocalDate dataSaida = LocalDate.parse(sc.nextLine());
+
+            System.out.println("Informe o documento do funcionário: ");
+            String documentoF = sc.nextLine();
+            Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documentoF);
+            if (funcionario == null) {
+                System.out.println("Nenhum funcionário encontrado com o documento informado!");
+                return;
+            }
+
+            System.out.println("Informe o número do quarto: ");
+            int numeroQuarto = sc.nextInt();
+            sc.nextLine();
+            Quarto quarto = quartoDAO.visualizarQuarto(numeroQuarto);
+            if (quarto == null) {
+                System.out.println("Nenhum quarto encontrado com o número informado!");
+                return;
+            }
+            if (!quarto.getStatus()){
+                System.out.println("O quarto já está reservado!");
+                return;
+            }
+
+            System.out.println("Informe o documento do hóspede: ");
+            String documentoH = sc.nextLine();
+            Hospede hospede = hospedeDAO.vizualizarHospede(documentoH);
+            if (hospede == null) {
+                System.out.println("Nenhum hóspede encontrado com o documento informado!");
+                return;
+            }
+
+            Reserva reserva = new Reserva(numeroReserva, dataEntrada, dataSaida, funcionario, quarto, hospede);
+        
             reservaDAO.criarReserva(reserva);
             quarto.setStatus(false);
             quartoDAO.atualizarStatusQuarto(quarto);
@@ -134,7 +135,7 @@ public class ReservaView {
         }
     }
 
-    private static void atualizarReserva(Scanner sc, ReservaDAO reservaDAO){
+    private static void atualizarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO){
         System.out.print("Número da Reserva: ");
         int numeroReserva = sc.nextInt();
         sc.nextLine();
@@ -151,8 +152,36 @@ public class ReservaView {
             System.out.print("Nova Data de Saída (AAAA-MM-DD): ");
             LocalDate novaDataSaida = LocalDate.parse(sc.nextLine());
 
-            reservaExistente.setDataEntrada(novaDataEntrada);
-            reservaExistente.setDataSaida(novaDataSaida);
+            System.out.println("Informe o documento do novo funcionário: ");
+            String documentoF = sc.nextLine();
+            Funcionario funcionario = funcionarioDAO.visualizarFuncionario(documentoF);
+            if (funcionario == null) {
+                System.out.println("Nenhum funcionário encontrado com o documento informado!");
+                return;
+            }
+
+            System.out.println("Informe o número do novo quarto: ");
+            int numeroQuarto = sc.nextInt();
+            sc.nextLine();
+            Quarto quarto = quartoDAO.visualizarQuarto(numeroQuarto);
+            if (quarto == null) {
+                System.out.println("Nenhum quarto encontrado com o número informado!");
+                return;
+            }
+            if (!quarto.getStatus()){
+                System.out.println("O quarto já está reservado!");
+                return;
+            }
+
+            System.out.println("Informe o documento do novo hóspede: ");
+            String documentoH = sc.nextLine();
+            Hospede hospede = hospedeDAO.vizualizarHospede(documentoH);
+            if (hospede == null) {
+                System.out.println("Nenhum hóspede encontrado com o documento informado!");
+                return;
+            }
+
+            Reserva reserva = new Reserva(numeroReserva, novaDataEntrada, novaDataSaida, funcionario, quarto, hospede);
             reservaDAO.atualizarReserva(reservaExistente);
 
         }catch (SQLException e) {
@@ -160,13 +189,22 @@ public class ReservaView {
         }
     }
 
-    private static void removerReserva(Scanner sc, ReservaDAO reservaDAO){
-        System.out.println("Informe o número da reserva a ser removido: ");
+    private static void removerReserva(Scanner sc, ReservaDAO reservaDAO, QuartoDAO quartoDAO){
+        System.out.println("Informe o número da reserva a ser removida: ");
         int numeroReserva = sc.nextInt();
         sc.nextLine();
 
         try{
+            Reserva reserva = reservaDAO.visualizarReserva(numeroReserva);
+            if (reserva == null) {
+                System.out.println("Nenhuma reserva encontrada com o numero informado!");
+                return;
+            }
+            Quarto quarto = reserva.getQuarto();
+
             reservaDAO.removerReserva(numeroReserva);
+            quarto.setStatus(true);
+            quartoDAO.atualizarStatusQuarto(quarto);
         } catch(SQLException e){
             System.out.println("Erro ao remover a reserva: " + e.getMessage());
         }
