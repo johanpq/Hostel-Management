@@ -1,14 +1,15 @@
+import config.ConnectionFactory;
+import dao.HospedeDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import config.ConnectionFactory;
-import dao.HospedeDAO;
 import views.FuncionarioView;
 import views.HospedeView;
 import views.QuartoView;
-import java.util.InputMismatchException;
+import views.ReservaView;
 
 public class Main {
     public static void main(String[] args) {
@@ -130,7 +131,7 @@ public class Main {
                         QuartoView.gerenciarQuartos();
                         break;
                     case 4:
-                        System.out.println("Case 4");
+                        ReservaView.gerenciarReservas();
                         break;
                     case 5:
                         sair = true;
