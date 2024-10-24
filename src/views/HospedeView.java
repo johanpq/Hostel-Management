@@ -1,6 +1,11 @@
 package views;
 
+import dao.FuncionarioDAO;
 import dao.HospedeDAO;
+import dao.QuartoDAO;
+import dao.ReservaDAO;
+import views.QuartoView;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -59,18 +64,23 @@ public class HospedeView {
         sc.close();
     }
 
-    public static void gerenciarHospede() {
+    public static void gerenciarHospede(String documentoAutenticado) {
         Scanner sc = new Scanner(System.in);
         HospedeDAO hospedeDAO = new HospedeDAO();
+        QuartoDAO quartoDAO = new QuartoDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        ReservaDAO reservaDAO = new ReservaDAO();
         boolean run = true;
 
         while (run) {
             System.out.println("Gerenciamento de Hóspedes\n");
-            System.out.println("1. Visualizar Hóspede");
-            System.out.println("2. Atualizar Hóspede");
-            System.out.println("3. Remover Hóspede");
-            System.out.println("4. Listar todos os Hóspedes");
-            System.out.println("5. Voltar ao menu principal");
+            System.out.println("1. Atualizar Hóspede");
+            System.out.println("2. Remover Hóspede");
+            System.out.println("3. Listar quartos");
+            System.out.println("4. Visualizar quartos");
+            System.out.println("5. Criar reserva");
+            System.out.println("6. Remover reserva");
+            System.out.println("7. Voltar ao menu principal");
             System.out.print("-> ");
 
             String opcaoStr = sc.nextLine();
@@ -84,18 +94,25 @@ public class HospedeView {
 
             switch (opcao) {
                 case 1:
-                    visualizarHospede(sc, hospedeDAO);
+                    atualizarHospede(sc, documentoAutenticado, hospedeDAO);
                     break;
                 case 2:
-                    atualizarHospede(sc, hospedeDAO);
+                    removerHospede(sc, documentoAutenticado, hospedeDAO);
                     break;
                 case 3:
-                    removerHospede(sc, hospedeDAO);
+                    QuartoView.listarQuartos(quartoDAO);
                     break;
                 case 4:
-                    listarHospedes(hospedeDAO);
+                    QuartoView.visualizarQuarto(sc, quartoDAO);
                     break;
                 case 5:
+                    ReservaView.criarReserva(sc, reservaDAO, funcionarioDAO, quartoDAO, hospedeDAO);
+                    break;
+                case 6:
+                    ReservaView.removerReserva(sc, documentoAutenticado, reservaDAO, quartoDAO);
+                    break;
+                case 7:
+                    run = false;
                     System.out.println("Voltando ao menu principal...");
                     return;
                 default:
@@ -138,7 +155,7 @@ public class HospedeView {
         try {
             Hospede hospede = hospedeDAO.vizualizarHospede(documento);
             if (hospede != null) {
-                System.out.println("Hóspede encontrado: " + hospede);
+                System.out.println("Hóspede encontrado: \n" + hospede);
             } else {
                 System.out.println("Hóspede não encontrado.");
             }
@@ -177,9 +194,61 @@ public class HospedeView {
         }
     }
 
+    private static void atualizarHospede(Scanner sc, String documentoAutenticado, HospedeDAO hospedeDAO) {
+        System.out.print("Informe o seu documento: ");
+        String documentoHospede = sc.nextLine();
+
+        if(!documentoHospede.equals(documentoAutenticado)) {
+            System.out.println("Esse não é o seu documento!");
+            return;
+        }
+
+        try {
+            Hospede hospedeExistente = hospedeDAO.vizualizarHospede(documentoHospede);
+            if (hospedeExistente == null) {
+                System.out.println("Hóspede não encontrado!");
+                return;
+            }
+
+            System.out.print("Novo Nome do Hóspede: ");
+            String nome = sc.nextLine();
+            System.out.print("Novo Telefone: ");
+            String telefone = sc.nextLine();
+            System.out.print("Novo Email: ");
+            String email = sc.nextLine();
+            System.out.print("Nova Senha: ");
+            String senha = sc.nextLine();
+            System.out.print("Novo Alimento Restrito: ");
+            String alimentoRestrito = sc.nextLine();
+
+            Hospede hospedeAtualizado = new Hospede(nome, documentoHospede, telefone, email, senha, alimentoRestrito);
+            hospedeDAO.atualizarHospede(hospedeAtualizado);
+            System.out.println("Hóspede atualizado com sucesso!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar o hóspede: " + e.getMessage());
+        }
+    }
+
     private static void removerHospede(Scanner sc, HospedeDAO hospedeDAO) {
         System.out.print("Informe o documento do hóspede a ser removido: ");
         String documento = sc.nextLine();
+
+        try {
+            hospedeDAO.removerHospede(documento);
+            System.out.println("Hóspede removido com sucesso!\n");
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover o hóspede: \n " + e.getMessage());
+        }
+    }
+
+    private static void removerHospede(Scanner sc, String documentoAutenticado, HospedeDAO hospedeDAO) {
+        System.out.print("Informe o documento do hóspede a ser removido: ");
+        String documento = sc.nextLine();
+
+        if(!documento.equals(documentoAutenticado)) {
+            System.out.println("Esse não é o seu documento!");
+            return;
+        }
 
         try {
             hospedeDAO.removerHospede(documento);
