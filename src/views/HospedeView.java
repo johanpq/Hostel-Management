@@ -73,7 +73,7 @@ public class HospedeView {
         boolean run = true;
 
         while (run) {
-            System.out.println("Gerenciamento de Hóspedes\n");
+            System.out.println("\nGerenciamento de Hóspedes\n");
             System.out.println("1. Atualizar Hóspede");
             System.out.println("2. Remover Hóspede");
             System.out.println("3. Listar quartos");
@@ -104,6 +104,7 @@ public class HospedeView {
                     break;
                 case 4:
                     QuartoView.visualizarQuarto(sc, quartoDAO);
+                    sc.nextLine();
                     break;
                 case 5:
                     ReservaView.criarReserva(sc, reservaDAO, funcionarioDAO, quartoDAO, hospedeDAO);
