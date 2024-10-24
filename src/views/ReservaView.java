@@ -147,6 +147,8 @@ public class ReservaView {
                 return;
             }
 
+            Quarto quartoAtual = reservaExistente.getQuarto();
+
             System.out.print("Nova Data de Entrada (AAAA-MM-DD): ");
             LocalDate novaDataEntrada = LocalDate.parse(sc.nextLine());
             System.out.print("Nova Data de Saída (AAAA-MM-DD): ");
@@ -172,6 +174,13 @@ public class ReservaView {
                 System.out.println("O quarto já está reservado!");
                 return;
             }
+            if (quartoAtual.getNumero() != quarto.getNumero()) {
+                quartoAtual.setStatus(true);
+                quartoDAO.atualizarStatusQuarto(quartoAtual);
+
+                quarto.setStatus(false);
+                quartoDAO.atualizarStatusQuarto(quarto);
+            }
 
             System.out.println("Informe o documento do novo hóspede: ");
             String documentoH = sc.nextLine();
@@ -182,7 +191,7 @@ public class ReservaView {
             }
 
             Reserva reserva = new Reserva(numeroReserva, novaDataEntrada, novaDataSaida, funcionario, quarto, hospede);
-            reservaDAO.atualizarReserva(reservaExistente);
+            reservaDAO.atualizarReserva(reserva);
 
         }catch (SQLException e) {
             System.out.println("Erro ao atualizar a reserva: " + e.getMessage());
