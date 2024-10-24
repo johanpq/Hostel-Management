@@ -6,7 +6,7 @@ CREATE TABLE funcionario (
 	email VARCHAR(50) not null,
 	senha VARCHAR(10) not null,
 	cargo VARCHAR(30) not null,
-	PRIMARY KEY (documento)
+	PRIMARY KEY (documento) 
 );
 
 -- Tabela Quarto
@@ -38,7 +38,8 @@ CREATE TABLE reserva (
     numeroQuarto INT NOT NULL,
     documentoHospede CHAR(14) NOT NULL,
     PRIMARY KEY (numeroReserva),
-    FOREIGN KEY (documentoFuncionario) REFERENCES funcionario,
-    FOREIGN KEY (numeroQuarto) REFERENCES quarto,
-    FOREIGN KEY (documentoHospede) REFERENCES hospede
+    FOREIGN KEY (documentoFuncionario) REFERENCES funcionario On UPDATE cascade on DELETE cascade,
+    FOREIGN KEY (numeroQuarto) REFERENCES quarto On UPDATE cascade on DELETE cascade,
+    FOREIGN KEY (documentoHospede) REFERENCES hospede On UPDATE cascade on DELETE cascade
+
 );
