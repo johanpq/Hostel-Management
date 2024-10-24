@@ -72,7 +72,7 @@ public class QuartoView {
         }
     }
 
-    private static void visualizarQuarto(Scanner sc, QuartoDAO quartoDAO){
+    public static void visualizarQuarto(Scanner sc, QuartoDAO quartoDAO){
         System.out.println("Informe o número do quarto a ser visualizado: ");
         int numero = sc.nextInt();
 
@@ -127,7 +127,7 @@ public class QuartoView {
         }
     }
 
-    private static void listarQuartos(QuartoDAO quartoDAO){
+    public static void listarQuartos(QuartoDAO quartoDAO){
         System.out.println("\nListando todos os Quartos...");
         try{
             List<Quarto> quartos = quartoDAO.listarQuartos();
