@@ -60,6 +60,9 @@ public class Main {
                             case 1:
                                 input.nextLine();
                                 System.out.println("----------LOGIN----------");
+
+                                System.out.print("Documento: ");
+                                String documentoAutenticado = input.nextLine();
                     
                                 System.out.print("Email: ");
                                 String emailHospede = input.nextLine();
@@ -67,10 +70,10 @@ public class Main {
                                 System.out.print("Senha: ");
                                 String senhaHospede = input.nextLine();
                 
-                                loginDeuCerto = checaHospede(input, emailHospede, senhaHospede);
+                                loginDeuCerto = checaHospede(input, documentoAutenticado, emailHospede, senhaHospede);
         
                                 if(loginDeuCerto) {
-                                    HospedeView.gerenciarHospede();
+                                    HospedeView.gerenciarHospede(documentoAutenticado);
                                 }
         
                                 System.out.println("-------------------------");
@@ -174,15 +177,16 @@ public class Main {
         return login;
     }
 
-    public static boolean checaHospede(Scanner input, String email, String senha) {
+    public static boolean checaHospede(Scanner input, String documentoAutenticado, String email, String senha) {
         boolean login = false;
-        String sql = "SELECT * FROM hospede WHERE email = ? AND senha = ?";
+        String sql = "SELECT * FROM hospede WHERE documento = ? AND email = ?  AND senha = ?";
 
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, email);
-            statement.setString(2, senha);
+            statement.setString(1, documentoAutenticado);
+            statement.setString(2, email);
+            statement.setString(3, senha);
 
             ResultSet result = statement.executeQuery();
 
