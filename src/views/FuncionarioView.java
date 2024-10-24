@@ -59,7 +59,6 @@ public class FuncionarioView {
     }
 
     private static void criarFuncionario(Scanner sc, FuncionarioDAO funcionarioDAO){
-        sc.nextLine();
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("Documento: ");
