@@ -68,7 +68,7 @@ public class ReservaView {
         }
     }
 
-    private static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO){
+    public static void criarReserva(Scanner sc, ReservaDAO reservaDAO, FuncionarioDAO funcionarioDAO, QuartoDAO quartoDAO, HospedeDAO hospedeDAO){
         System.out.println("Número da Reserva: ");
         int numeroReserva = sc.nextInt();
         sc.nextLine();
@@ -190,6 +190,35 @@ public class ReservaView {
     }
 
     private static void removerReserva(Scanner sc, ReservaDAO reservaDAO, QuartoDAO quartoDAO){
+        System.out.println("Informe o número da reserva a ser removida: ");
+        int numeroReserva = sc.nextInt();
+        sc.nextLine();
+
+        try{
+            Reserva reserva = reservaDAO.visualizarReserva(numeroReserva);
+            if (reserva == null) {
+                System.out.println("Nenhuma reserva encontrada com o numero informado!");
+                return;
+            }
+            Quarto quarto = reserva.getQuarto();
+
+            reservaDAO.removerReserva(numeroReserva);
+            quarto.setStatus(true);
+            quartoDAO.atualizarStatusQuarto(quarto);
+        } catch(SQLException e){
+            System.out.println("Erro ao remover a reserva: " + e.getMessage());
+        }
+    }
+
+    public static void removerReserva(Scanner sc, String documentoAutenticado, ReservaDAO reservaDAO, QuartoDAO quartoDAO){
+        System.out.println("Informe o documento: ");
+        String documento = sc.nextLine();
+
+        if(!documento.equals(documentoAutenticado)) {
+            System.err.println("O seu documento não é o que está em nosso banco de dados!");
+            return;
+        }
+
         System.out.println("Informe o número da reserva a ser removida: ");
         int numeroReserva = sc.nextInt();
         sc.nextLine();
