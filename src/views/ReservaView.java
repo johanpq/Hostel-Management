@@ -1,18 +1,17 @@
 package views;
 
-import dao.ReservaDAO;
-import dao.QuartoDAO;
-import dao.HospedeDAO;
 import dao.FuncionarioDAO;
-import models.Reserva;
-import models.Quarto;
-import models.Hospede;
-import models.Funcionario;
-
+import dao.HospedeDAO;
+import dao.QuartoDAO;
+import dao.ReservaDAO;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import models.Funcionario;
+import models.Hospede;
+import models.Quarto;
+import models.Reserva;
 
 public class ReservaView {
     public static void gerenciarReservas() throws SQLException{
@@ -77,6 +76,13 @@ public class ReservaView {
             LocalDate dataEntrada = LocalDate.parse(sc.nextLine());
             System.out.println("Data de Saída(AAAA-MM-DD): ");
             LocalDate dataSaida = LocalDate.parse(sc.nextLine());
+
+            
+            // Validação das datas
+            if (dataSaida.isBefore(dataEntrada)) {
+                System.out.println("A data de saída não pode ser anterior a data de entrada!");
+                return;
+            }
 
             System.out.println("Informe o documento do funcionário: ");
             String documentoF = sc.nextLine();
