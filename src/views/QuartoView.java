@@ -12,7 +12,6 @@ public class QuartoView {
         Scanner sc = new Scanner(System.in);
         QuartoDAO quartoDAO = new QuartoDAO();
         boolean run = true;
-        
 
         while (run) {
             System.out.println("\nGerenciamento de Quartos\n");
@@ -23,7 +22,15 @@ public class QuartoView {
             System.out.println("5. Listar todos os quartos");
             System.out.println("6. Voltar ao menu principal");
             System.out.print("-> ");
-            int opcao = sc.nextInt();
+            
+            String opcaoStr = sc.nextLine();
+            int opcao;
+            try {
+                opcao = Integer.parseInt(opcaoStr);  
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida. Digite um número.");
+                continue;  // Se der erro, volta ao começo do loop
+            }
 
             switch (opcao) {
                 case 1:
