@@ -94,5 +94,5 @@ O diagrama de classes do projeto mostra as principais entidades e suas interaç�
 
 ## Licença
 
-Este projeto é licenciado sob a [Licença MIT](LICENSE.md).
+Este projeto é licenciado sob a [Licença MIT](LICENSE).
 
