@@ -47,7 +47,7 @@ O diagrama de classes do projeto mostra as principais entidades e suas interaç�
     - Dentro de `src`, crie a pasta `test` e mova o arquivo `TestConnection.java` para essa pasta.
 
 5. **Criar a pasta `lib`:**
-   - Baixe o arquivo `.jar` do PostgreSQL e coloque dentro de `lib` que estará dentro de `src`.
+   - Baixe o arquivo `.jar` do [PostgreSQL](https://jdbc.postgresql.org/download/) e coloque dentro de `lib` que estará dentro de `src`.
 
 6. **Criar a pasta `bin`:**
 
@@ -61,13 +61,13 @@ O diagrama de classes do projeto mostra as principais entidades e suas interaç�
 
       javac -d ../bin -cp "src/lib/" src//.java
     
-6. **Estabelecer a conexão com o Banco de Dados:**
+7. **Estabelecer a conexão com o Banco de Dados:**
   
 - Navegue até o diretório `src`:
 
        cd src
 
-7. **Executar o arquivo de teste de conexão:**
+8. **Executar o arquivo de teste de conexão:**
 
    Para Windows:
 
@@ -77,7 +77,7 @@ O diagrama de classes do projeto mostra as principais entidades e suas interaç�
 
        java -cp "lib/postgresql-42.7.4.jar:../bin" test.TestConnection
   
-8. **Executar o sistema principal:** Entre dentro de `src` e execute:
+9. **Executar o sistema principal:** Entre dentro de `src` e execute:
    
    Para Windows:
    
