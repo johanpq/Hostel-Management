@@ -55,7 +55,7 @@ O diagrama de classes do projeto mostra as principais entidades e suas intera√ß√
 
    Para Windows:
 
-      java -cp "lib/postgresql-42.7.4.jar;bin" test.TestConnection
+      avac -d bin -cp "lib/*" config\ConnectionFactory.java models\Usuario.java Main.java models\Funcionario.java models\Hospede.java models\Quarto.java models\Reserva.java  dao\FuncionarioDAO.java dao\HospedeDAO.java dao\QuartoDAO.java dao\ReservaDAO.java views\FuncionarioView.java views\QuartoView.java views\HospedeView.java views\ReservaView.java
 
    Para Linux:
 
@@ -71,7 +71,7 @@ O diagrama de classes do projeto mostra as principais entidades e suas intera√ß√
 
    Para Windows:
 
-       javac -d bin -cp "lib/postgresql-42.7.4.jar;bin" test/TestConnection.java
+      java -cp "lib/postgresql-42.7.4.jar;bin" test.TestConnection
 
     Para Linux:
 
